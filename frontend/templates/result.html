@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Performance Result</title>
+  <style>
+    :root {
+      --bg1: #060b1a;
+      --bg2: #101a36;
+      --card: rgba(17, 24, 49, 0.92);
+      --text: #e9ecf9;
+      --muted: #a2accf;
+      --accent: #6ea8fe;
+      --accent2: #7bd389;
+      --danger: #ff6b6b;
+      --gold: #ffd700;
+      --glow: 0 0 20px rgba(110,168,254,0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: radial-gradient(circle at top left, var(--bg2), var(--bg1) 80%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      width: min(700px, 100%);
+      background: var(--card);
+      border-radius: 22px;
+      padding: 40px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      animation: fadeUp 1s ease;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      text-shadow: var(--glow);
+    }
+
+    .buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.back-btn {
+  padding: 12px 28px;
+  font-weight: 600;
+  color: #06102a;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(110,168,254,0.25);
+  transition: all 0.35s ease;
+  border: none;
+  display: inline-block;
+}
+
+.back-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 6px 25px rgba(110,168,254,0.45);
+}
+
+.back-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 14px rgba(110,168,254,0.3);
+}
+
+
+    p {
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+
+    .prediction {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.3px;
+      transition: all 0.4s ease;
+    }
+
+    .excellent {
+      background: rgba(110,168,254,0.12);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 20px rgba(110,168,254,0.15);
+    }
+    .good {
+      background: rgba(123,211,137,0.12);
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      box-shadow: 0 0 20px rgba(123,211,137,0.15);
+    }
+    .bad {
+      background: rgba(255,107,107,0.12);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      box-shadow: 0 0 20px rgba(255,107,107,0.15);
+    }
+    .outstanding {
+      background: rgba(255,215,0,0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      box-shadow: 0 0 20px rgba(255,215,0,0.15);
+    }
+
+    .stars {
+      margin-top: 10px;
+      font-size: 1.6rem;
+      color: gold;
+      text-align: center;
+    }
+
+    .confidence {
+      margin-top: 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .section h2 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .tips {
+      margin-top: 8px;
+      background: rgba(110,168,254,0.08);
+      border-left: 4px solid var(--accent2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .back-btn {
+      display: inline-block;
+      text-align: center;
+      margin-top: 28px;
+      padding: 12px 24px;
+      font-weight: 600;
+      color: #06102a;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(110,168,254,0.25);
+    }
+
+    .back-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 25px rgba(110,168,254,0.45);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>EmpPerform Predictor</h1>
+    <p>The system analyzed the given details and predicted the employee’s performance level:</p>
+
+    <div class="prediction 
+      {% if prediction == 'Excellent' %}excellent{% elif prediction == 'Good' %}good{% elif prediction == 'Bad' %}bad{% elif prediction == 'Outstanding' %}outstanding{% endif %}">
+      Predicted Performance: <strong>{{ label }}</strong>
+      <div class="stars">
+        {% if prediction == "4" %}
+          ⭐⭐⭐⭐
+        {% elif prediction == "3" %}
+          ⭐⭐⭐
+        {% elif prediction == "2" %}
+          ⭐⭐
+        {% elif prediction == "1" %}
+          ⭐
+        {% endif %}
+      </div>
+    </div>
+
+    {% if confidence %}
+    <div class="confidence">
+      Confidence Level: <strong>{{ confidence }}%</strong>
+    </div>
+    {% endif %}
+
+    <div class="section">
+      <h2>Insights & Suggestions</h2>
+      {% if prediction == "3" %}
+        <div class="tips">
+          The employee consistently performs well and meets objectives. Providing opportunities for leadership and mentorship could enhance their professional growth.
+        </div>
+      {% elif prediction == "2" %}
+        <div class="tips">
+          The employee shows steady performance with potential for growth. Focused training and motivation may improve their outcomes further.
+        </div>
+      {% elif prediction == "1" %}
+        <div class="tips">
+          The performance is below expectations. Regular feedback, guidance, and balanced workloads can help boost productivity.
+        </div>
+      {% else %}
+        <div class="tips">
+          Exceptional performance! Recognize achievements and assign advanced tasks to sustain motivation and excellence.
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="buttons">
+  <a href="{{ url_for('home') }}" class="back-btn">← Back to Home</a>
+  <a href="{{ url_for('index') }}" class="back-btn">↺ Back to Form</a>
+</div>
+
+    
+  </div>
+</body>
+</html>

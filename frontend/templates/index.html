@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EmpPerform | Prediction</title>
+  <style>
+    :root {
+      --bg1: #050a18;
+      --bg2: #0d1734;
+      --card: rgba(17, 24, 49, 0.8);
+      --text: #e8ecf8;
+      --muted: #9aa4bc;
+      --accent: #6ea8fe;
+      --accent2: #86c5ff;
+      --ring: rgba(110,168,254,0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, var(--bg2), var(--bg1) 80%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
+      overflow-x: hidden;
+    }
+
+    /* Background floating lights */
+    .glow1, .glow2 {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.5;
+      z-index: -1;
+      animation: float 10s ease-in-out infinite alternate;
+    }
+    .glow1 {
+      width: 400px; height: 400px;
+      background: var(--accent);
+      top: -100px; left: -100px;
+    }
+    .glow2 {
+      width: 350px; height: 350px;
+      background: var(--accent2);
+      bottom: -120px; right: -100px;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0px) translateX(0px); }
+      to { transform: translateY(40px) translateX(30px); }
+    }
+
+    .wrap {
+      width: min(650px, 95%);
+      padding: 30px 24px 70px;
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 1s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 1.3rem + 1.5vw, 2.3rem);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-shadow: 0 0 20px rgba(110,168,254,0.3);
+      animation: glowPulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 10px rgba(110,168,254,0.3); }
+      to { text-shadow: 0 0 25px rgba(134,197,255,0.5); }
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(26, 34, 56, 0.85);
+      color: var(--text);
+      outline: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    option {
+      background: #1a2238;
+      color: var(--text);
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 0 4px var(--ring);
+      border-color: var(--accent);
+      background: rgba(34,44,70,0.9);
+      transform: scale(1.02);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #071029;
+      box-shadow: 0 0 15px rgba(110,168,254,0.3);
+    }
+
+    .primary:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 0 25px rgba(110,168,254,0.5);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .secondary:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      .wrap { padding: 20px 18px 50px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+
+  <div class="wrap">
+    <header>
+      <h1>EmpPerform Predictor</h1>
+    </header>
+
+    <section class="card">
+      <form id="perfForm" novalidate>
+        <div class="grid">
+          <div>
+            <label for="Department">Department</label>
+            <select id="Department" name="Department" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Sales">Sales</option>
+              <option value="Research & Development">Research & Development</option>
+              <option value="Human Resources">Human Resources</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="JobRole">Job Role</label>
+            <select id="JobRole" name="JobRole" required>
+              <option value="" disabled selected>Select Department First</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="JobLevel">Job Level</label>
+            <select id="JobLevel" name="JobLevel" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Entry Level</option>
+              <option value="2">Junior</option>
+              <option value="3">Senior</option>
+              <option value="4">Manager</option>
+              <option value="5">Executive</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="YearsInCurrentRole">Years in Current Role</label>
+            <input id="YearsInCurrentRole" name="YearsInCurrentRole" type="number" min="0" required placeholder="e.g., 3">
+          </div>
+
+          <div>
+            <label for="YearsWithCurrManager">Years with Current Manager</label>
+            <input id="YearsWithCurrManager" name="YearsWithCurrManager" type="number" min="0" required placeholder="e.g., 2">
+          </div>
+
+          <div>
+            <label for="OverTime">OverTime</label>
+            <select id="OverTime" name="OverTime" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="JobInvolvement">Job Involvement</label>
+            <select id="JobInvolvement" name="JobInvolvement" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Low</option>
+              <option value="2">Medium</option>
+              <option value="3">High</option>
+              <option value="4">Very High</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="JobSatisfaction">Job Satisfaction</label>
+            <select id="JobSatisfaction" name="JobSatisfaction" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Low</option>
+              <option value="2">Medium</option>
+              <option value="3">High</option>
+              <option value="4">Very High</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="EnvironmentSatisfaction">Environment Satisfaction</label>
+            <select id="EnvironmentSatisfaction" name="EnvironmentSatisfaction" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Low</option>
+              <option value="2">Medium</option>
+              <option value="3">High</option>
+              <option value="4">Very High</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="RelationshipSatisfaction">Relationship Satisfaction</label>
+            <select id="RelationshipSatisfaction" name="RelationshipSatisfaction" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Low</option>
+              <option value="2">Medium</option>
+              <option value="3">High</option>
+              <option value="4">Very High</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="WorkLifeBalance">Work Life Balance</label>
+            <select id="WorkLifeBalance" name="WorkLifeBalance" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">Bad</option>
+              <option value="2">Good</option>
+              <option value="3">Better</option>
+              <option value="4">Best</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="MonthlyIncome">Monthly Income</label>
+            <input id="MonthlyIncome" name="MonthlyIncome" type="number" min="0" required placeholder="e.g., 6500">
+          </div>
+
+          <div>
+            <label for="PercentSalaryHike">Percent Salary Hike</label>
+            <input id="PercentSalaryHike" name="PercentSalaryHike" type="number" min="0" required placeholder="e.g., 12">
+          </div>
+
+          <div>
+            <label for="TrainingTimesLastYear">Trainings Last Year</label>
+            <input id="TrainingTimesLastYear" name="TrainingTimesLastYear" type="number" min="0" required placeholder="e.g., 2">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="reset" class="secondary">Reset</button>
+          <button type="submit" class="primary">Submit</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    const form = document.getElementById('perfForm');
+    const department = document.getElementById('Department');
+    const jobRole = document.getElementById('JobRole');
+
+    const roles = {
+      "Sales": ["Sales Executive", "Sales Representative", "Manager"],
+      "Research & Development": ["Research Scientist", "Laboratory Technician", "Healthcare Representative", "Manufacturing Director"],
+      "Human Resources": ["HR Manager", "HR Executive"]
+    };
+
+    department.addEventListener('change', () => {
+      jobRole.innerHTML = '<option value="" disabled selected>Select</option>';
+      if (roles[department.value]) {
+        roles[department.value].forEach(r => {
+          const opt = document.createElement('option');
+          opt.value = r;
+          opt.textContent = r;
+          jobRole.appendChild(opt);
+        });
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if(!form.checkValidity()){ form.reportValidity(); return; }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      ['JobLevel','YearsInCurrentRole','YearsWithCurrManager','MonthlyIncome','PercentSalaryHike','TrainingTimesLastYear']
+        .forEach(k => { data[k] = Number(data[k]); });
+      ['JobInvolvement','JobSatisfaction','EnvironmentSatisfaction','RelationshipSatisfaction','WorkLifeBalance']
+        .forEach(k => { data[k] = Number(data[k]); });
+
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+
+        if (json.error) {
+          alert("Error: " + json.error);
+        } else {
+          window.location.href = `/result?prediction=${json.prediction}&label=${encodeURIComponent(json.label)}`;
+        }
+
+      } catch(err) {
+        alert(`Error: ${err.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

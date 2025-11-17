@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmpPerform | Home</title>
+  <style>
+    :root {
+      --bg1: #060b1a;
+      --bg2: #0d1734;
+      --accent: #6ea8fe;
+      --accent2: #86c5ff;
+      --text: #e9ecf9;
+      --muted: #a2accf;
+      --glow: 0 0 30px rgba(110,168,254,0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, var(--bg2), var(--bg1) 80%);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--glow);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 35px;
+      letter-spacing: 0.5px;
+      animation: fadeIn 2s ease;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      animation: fadeIn 2.3s ease;
+    }
+
+    /* Primary button */
+    a.primary {
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #06102a;
+      box-shadow: 0 0 20px rgba(110,168,254,0.4);
+      transition: 0.3s ease;
+    }
+
+    a.primary:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 35px rgba(110,168,254,0.6);
+    }
+
+    /* Enhanced About Button */
+    a.about {
+      text-decoration: none;
+      color: var(--accent2);
+      border: 1px solid rgba(110,168,254,0.3);
+      background: rgba(255,255,255,0.03);
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px rgba(110,168,254,0.15);
+      cursor: pointer;
+    }
+
+    a.about:hover {
+      background: rgba(110,168,254,0.08);
+      transform: scale(1.07);
+      box-shadow: 0 0 25px rgba(110,168,254,0.45);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    /* Modal Box */
+    .modal-box {
+      background: rgba(13,23,52,0.9);
+      border: 1px solid rgba(110,168,254,0.3);
+      padding: 25px;
+      width: min(450px, 90%);
+      border-radius: 16px;
+      color: var(--text);
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+      box-shadow: 0 0 25px rgba(110,168,254,0.35);
+    }
+
+    /* Close Button */
+    .close-btn {
+      margin-top: 15px;
+      padding: 10px 22px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #06102a;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s ease;
+    }
+    .close-btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      opacity: 0.8;
+      letter-spacing: 0.4px;
+    }
+
+    .floating-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(110,168,254,0.3), transparent 70%);
+      top: -100px;
+      left: -100px;
+      animation: float 8s ease-in-out infinite alternate;
+      z-index: -1;
+      filter: blur(50px);
+    }
+
+    .floating-glow2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(134,197,255,0.25), transparent 70%);
+      bottom: -120px;
+      right: -100px;
+      animation: float 10s ease-in-out infinite alternate;
+      z-index: -1;
+      filter: blur(60px);
+    }
+
+    @keyframes float {
+      from { transform: translateY(0px) translateX(0px); }
+      to { transform: translateY(40px) translateX(20px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="floating-glow"></div>
+  <div class="floating-glow2"></div>
+
+  <h1>EmpPerform</h1>
+  <h3>Smart Insights for Smarter Workforce Decisions</h3>
+
+  <div class="buttons">
+    <a href="{{ url_for('index') }}" class="primary">Start Prediction</a>
+    <a class="about" onclick="openModal()">About Model</a>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="modal-box">
+      <h2 style="color: var(--accent)">XGBoost Model</h2>
+      <p style="color: var(--muted); line-height: 1.5; margin-top: 10px;">
+        EmpPerform uses an advanced <strong>XGBoost</strong> machine learning model to evaluate
+        employee performance using multiple workplace factors.<br><br>
+        The system provides fast, accurate, and data-driven predictions to support effective HR decisions.
+      </p>
+
+      <button class="close-btn" onclick="closeModal()">Got It</button>
+    </div>
+  </div>
+
+  <footer>© 2025 EmpPerform | Powered by XGBoost Intelligence</footer>
+
+  <!-- Modal Script -->
+  <script>
+    function openModal() {
+      document.getElementById("aboutModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("aboutModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("aboutModal");
+      if (event.target === modal) modal.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
